@@ -72,26 +72,6 @@ resource "azurerm_virtual_machine" "test" {
 
   os_profile_linux_config {
     disable_password_authentication = true
-    ssh_keys {
-      path = "/home/${var.username}/.ssh/authorized_keys"
-      key_data = "${file("~/.ssh/id_rsa.pub")}"
-    }
-  }
-
-  connection {
-    host     = "${azurerm_public_ip.test.ip_address}"
-    user     = "${var.username}"
-
-    key_file = "${file("~/.ssh/id_rsa")}"
-  }
-
-  provisioner "remote-exec" {
-    inline = ["echo 'CONNECTED!'"]
-  }
-
-  provisioner "file" {
-    source      = "test.txt"
-    destination = "/tmp/test.txt"
   }
 
   tags {
